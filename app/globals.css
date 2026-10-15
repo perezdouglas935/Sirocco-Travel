@@ -1,0 +1,230 @@
+@import "tailwindcss";
+
+/*
+  SIROCCO palette, tropical pass.
+  Roles (semantic, remapped from the dark neon world):
+  canvas = warm sand, elevated surface = shell, text = espresso ink,
+  action = coral, atmosphere = sea teal + sunset amber, borders = ink hairlines.
+*/
+@theme {
+  --font-display: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-karla), "Segoe UI", system-ui, sans-serif;
+
+  --color-sand: #f7f2e8;
+  --color-shell: #fbf7ef;
+  --color-ink: #221d16;
+  --color-muted: #6b6154;
+  --color-coral: #c8543f;
+  --color-coral-deep: #a8402c;
+  --color-teal: #1f7a6d;
+  --color-amber: #cf9a4e;
+
+  --shadow-soft: 0 18px 40px rgb(34 29 22 / 0.12);
+  --shadow-coral: 0 10px 26px rgb(200 84 63 / 0.22);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--color-sand);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgb(200 84 63 / 0.2);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-coral);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  z-index: 60;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--color-shell);
+  color: var(--color-ink);
+  transition: top 0.2s ease;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Blur only on the nav, the one place it carries the pattern */
+.glass {
+  position: relative;
+  isolation: isolate;
+  background: rgb(251 247 239 / 0.85);
+  border: 1px solid rgb(34 29 22 / 0.12);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Hairline editorial tile */
+.tile {
+  border: 1px solid rgb(34 29 22 / 0.12);
+  background: var(--color-shell);
+}
+
+/* Tropical conic edge, only on the featured tier */
+.sirocco-edge {
+  position: relative;
+  isolation: isolate;
+}
+.sirocco-edge::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--aurora-angle, 0deg),
+    rgb(200 84 63 / 0.55),
+    rgb(207 154 78 / 0.4),
+    rgb(31 122 109 / 0.55),
+    rgb(200 84 63 / 0.55)
+  );
+  animation: sirocco-spin 12s linear infinite;
+  opacity: 0.6;
+}
+@property --aurora-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes sirocco-spin {
+  to {
+    --aurora-angle: 360deg;
+  }
+}
+
+/* Paper grain, fixed layer only */
+.noise {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+}
+
+/* Shimmer sweep, hover only */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 40%, rgb(255 255 255 / 0.55) 50%, transparent 60%);
+  transform: translateX(-100%);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+.shimmer:hover::after,
+.shimmer:focus-visible::after {
+  transform: translateX(100%);
+}
+
+.lift {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-coral);
+}
+
+/* Hero curtain wipe */
+.curtain {
+  clip-path: inset(0 0 0 0);
+  animation: curtain-wipe 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes curtain-wipe {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Line-mask reveal for hero headline */
+.line-mask {
+  overflow: hidden;
+}
+.line-mask > span {
+  display: block;
+  animation: line-rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes line-rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Horizontal snap rail */
+.snap-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem;
+}
+.snap-rail > * {
+  scroll-snap-align: start;
+  flex: 0 0 min(340px, 85vw);
+}
+
+/* Active nav pill */
+.nav-pill {
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.nav-pill:hover {
+  color: var(--color-ink);
+}
+.nav-pill[aria-current="true"] {
+  color: var(--color-ink);
+  background: rgb(200 84 63 / 0.12);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--color-shell);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .sirocco-edge::before,
+  .shimmer::after,
+  .curtain,
+  .line-mask > span {
+    animation: none;
+  }
+  .lift:hover {
+    transform: none;
+  }
+}
