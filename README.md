@@ -34,7 +34,7 @@ npm start        # serve the build
 - Membership Tiers: Silver, Black (featured), Obsidian
 - Member Voices: accessible carousel (prev/next, dots, `aria-live`)
 - Concierge form: client-side validation, interest chips, budget select,
-  "Request received" toast. No network call is made
+  "Nothing was sent" notice. No network call is made and no data is stored
 - Footer: minimal, with full image credits
 - Floating "Request Itinerary" button on mobile
 

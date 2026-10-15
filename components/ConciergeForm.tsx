@@ -93,8 +93,8 @@ export function ConciergeForm() {
         Request an Itinerary
       </h2>
       <p className="mt-3 max-w-[65ch] text-sm leading-relaxed text-muted">
-        Tell the desk how you travel. A trip designer replies within one business
-        day with a first shape, not a brochure.
+        Tell the desk how you travel. This form is a placeholder: nothing you
+        enter is sent, stored, or reviewed.
       </p>
 
       <form onSubmit={handleSubmit} noValidate className="glass mt-8 rounded-2xl p-7">
@@ -272,7 +272,7 @@ export function ConciergeForm() {
           type="submit"
           className="mt-6 rounded-full bg-coral px-6 py-3 text-sm font-semibold text-shell shadow-coral transition-transform duration-200 active:-translate-y-[1px]"
         >
-          Send Request
+          Preview Request
         </button>
       </form>
 
@@ -284,7 +284,8 @@ export function ConciergeForm() {
           toast ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
         )}
       >
-        Request received. A trip designer will reply within one business day.
+        Nothing was sent. This form is not connected to a backend, so no request
+        is stored or reviewed.
       </div>
     </SectionReveal>
   );
